@@ -10,7 +10,7 @@ namespace StaticMembers
     {
         public string PlayerName;
         public int Score { get; set; }
-        public int PlayerID = 1;
+        public static int PlayerID {get; set;} = 1;
         public static int TotalPlayers { get; set; }
         public static int HighestScore { get; set; }
         public static int NextID = 1;
@@ -41,11 +41,11 @@ namespace StaticMembers
         }
         public static int PlayerId(int NextId)
         {
-            //NextID++;
+            NextID++;
         }
         public void UpdateScore(int newScore)
         {
-            //Score = newScore;
+            Score = newScore;
 
             if (HighestScore <= newScore)
             {
