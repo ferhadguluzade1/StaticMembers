@@ -8,55 +8,85 @@ namespace StaticMembers
 {
     internal class GamePlayer
     {
-        public string PlayerName;
+        public static GamePlayer[] players = new GamePlayer[0];
         public int Score { get; set; }
-        public static int PlayerID {get; set;} = 1;
+
+
+
+        public static int PlayerID = 1;
+
+        public string PlayerName { get; set; }
         public static int TotalPlayers { get; set; }
         public static int HighestScore { get; set; }
-        public static int NextID = 1;
+        
+        public static int NextId = 0;
 
 
-        public GamePlayer(int totalPlayers, int playerId, int nextId, int highestScore)
+        public GamePlayer(string name, int score)
         {
-            TotalPlayers = totalPlayers;
-            PlayerID = playerId;
-            NextID = nextId;
-            HighestScore = highestScore;
+            Score = score;
+            PlayerName = name;
+            NextId++;
+            
+            if (Score > HighestScore)
+            {
+                HighestScore = Score;
+            }
 
-            GamePlayer gamePlayer = new GamePlayer(12, 1, 2, 20);
             TotalPlayers++;
+            Array.Resize(ref players, players.Length + 1);
+            players[players.Length - 1] = this;
 
 
 
         }
 
 
-        public static string playerName(string Name, int NextId):base()
-        {
-            NextID = NextId;
-            NextID++;
-
-
-
-        }
-        public static int PlayerId(int NextId)
-        {
-            NextID++;
-        }
+       
         public void UpdateScore(int newScore)
         {
             Score = newScore;
 
-            if (HighestScore <= newScore)
+            if (HighestScore < newScore)
             {
                 HighestScore = newScore;
             }
+
         }
         public static void RemovePlayer(GamePlayer p)
         {
-            //TotalPlayers -= TotalPlayers - p;
+            if (TotalPlayers == 0)
+            {
+                Console.WriteLine("There is no player");
+            }
+            else
+            {
+                int location = -1;
+                for (int i = 0; i < players.Length; i++)
+                {
+                    if (p == players[i])
+                    {
+                        location = i;
+                        break;
+                    }
+                }
 
-            //HighestScore=
+                if(location == -1)
+                {
+                    Console.WriteLine("There is no such a player");
+                    return;
+                }
+                else
+                {
+                    for (int i = location; i < players.Length - 1; i++)
+                    {
+                        players[i] = players[i + 1]; 
+                    }
+                    Array.Resize(ref players, players.Length - 1);
+                    Console.WriteLine("Deleted successfuly!");
+                    Console.ReadKey();
+                }
+            }
 
 
         }
